@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>QML/main.qml</file>
+        <file>QML/CustomComponents/CustomChartView.qml</file>
+        <file>QML/CustomComponents/CustomDisplayItem_Big.qml</file>
+        <file>QML/CustomComponents/CustomDisplayItem_Double.qml</file>
+        <file>QML/CustomComponents/CustomTargetValButton.qml</file>
+        <file>QML/CustomComponents/CustomSetupDialog.qml</file>
+        <file>QML/CustomComponents/CustomHeader.qml</file>
+        <file>QML/CustomComponents/CustomSidebar.qml</file>
+        <file>QML/CustomComponents/CustomFooter.qml</file>
+        <file>QML/CustomComponents/CustomAlarmDialog.qml</file>
+        <file>QML/CustomComponents/CustomDisplayItem_Big_ratio.qml</file>
+    </qresource>
+</RCC>
