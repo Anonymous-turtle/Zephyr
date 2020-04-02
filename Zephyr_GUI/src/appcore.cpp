@@ -6,6 +6,7 @@ AppCore::AppCore(QObject *parent)
     , m_xRange          {10000}
     , m_alarm           {""}
     , m_mode            {PressureMode}
+    , m_serialConnected {false}
 {
     //qRegisterMetaType<QAbstractSeries *>();
     //qRegisterMetaType<QAbstractAxis *>();
@@ -63,9 +64,10 @@ void AppCore::_initializeSerialComm()
     p_ArduinoSerial_->moveToThread(p_SerialThread_);
 
     // Initialize Singal Slot connections
-    connect(p_SerialThread_,    SIGNAL(started()),                          p_ArduinoSerial_,   SLOT(init()));
-    connect(p_SerialThread_,    SIGNAL(finished()),                         p_ArduinoSerial_,   SLOT(deleteLater()));
-    connect(this,               SIGNAL(_sendSerialMessage_(QByteArray)),    p_ArduinoSerial_,   SLOT(sendData(QByteArray)));
+    connect(p_SerialThread_,    SIGNAL(started()),                              p_ArduinoSerial_,   SLOT(init()));
+    connect(p_SerialThread_,    SIGNAL(finished()),                             p_ArduinoSerial_,   SLOT(deleteLater()));
+    connect(this,               SIGNAL(_sendSerialMessage_(QByteArray)),        p_ArduinoSerial_,   SLOT(sendData(QByteArray)));
+    connect(this,               SIGNAL(_updateSerialConfig_(QString, qint32)),  p_ArduinoSerial_,   SLOT(setConfiguration(QString, qint32)));
 
     connect(p_ArduinoSerial_,   SIGNAL(_connected_()),                          this,   SLOT(_onConnected()));
     connect(p_ArduinoSerial_,   SIGNAL(_connectionError_(QString)),             this,   SLOT(_onConnectionError(QString)));
@@ -356,6 +358,22 @@ void AppCore::resetAlarms()
     // Only reset alarm if its not serial related
     if (m_serialConnected)
         update_alarm("");
+}
+
+QStringList AppCore::getSerialPorts()
+{
+    // Insert the names into a QStringList so we can add them to the QComboBox
+    QStringList portStrList;
+    foreach (QSerialPortInfo port, QSerialPortInfo::availablePorts()) {
+        portStrList << port.portName();
+    }
+    return portStrList;
+}
+
+void AppCore::connectToPort(QString port)
+{
+    // Update configuration to selected comm port
+    emit _updateSerialConfig_(port, 115200);
 }
 
 

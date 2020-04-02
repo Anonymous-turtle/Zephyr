@@ -6,6 +6,8 @@
 #include <QDebug>
 #include <QTimer>
 #include <QDateTime>
+#include <QSettings>
+#include <QtCore>
 
 #define START_BYTE 0xAA     // Start byte of message (Needs to be the same on receiver!)
 #define USE_CRC true

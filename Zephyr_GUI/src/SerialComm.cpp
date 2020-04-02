@@ -17,20 +17,27 @@ void SerialComm::init()
     connect(p_SerialPort_,          SIGNAL(error(QSerialPort::SerialPortError)),        this,       SLOT(_processError(QSerialPort::SerialPortError)), Qt::DirectConnection);
     connect(p_connectionTimer_,     SIGNAL(timeout()),                                  this,       SLOT(openCommPort()));
 
-    // Configure Serial Port and open it - TODO: change to be settable from UI
-    setConfiguration("cu.usbserial-1460", 115200);
-    openCommPort();
+
+    //setConfiguration("cu.usbserial-1460", 115200);
+    // Set the file path and create a File and a Settings Object with this path
+    QSettings settings(qApp->applicationDirPath() + QDir::separator() + "CommSetting.ini", QSettings::IniFormat);
+
+    setConfiguration(settings.value("SerialPort").toString(), 115200);
 }
 
 // Set the QSerialPort configuration
 void SerialComm::setConfiguration(QString port, qint32 baudRate)
 {
+    QSettings settings(qApp->applicationDirPath() + QDir::separator() + "CommSetting.ini", QSettings::IniFormat);
+    settings.setValue("SerialPort", port);
+
     p_SerialPort_->setPortName      (port);
     p_SerialPort_->setBaudRate      (baudRate);
     p_SerialPort_->setDataBits      (QSerialPort::Data8);
     p_SerialPort_->setParity        (QSerialPort::NoParity);
     p_SerialPort_->setStopBits      (QSerialPort::OneStop);
     p_SerialPort_->setFlowControl   (QSerialPort::NoFlowControl);
+    openCommPort();
 }
 
 // Open communication

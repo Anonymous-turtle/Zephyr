@@ -145,4 +145,64 @@ Window {
     CustomAlarmDialog {
         id: alarmDialog
     }
+    Dialog{
+        id: comPortSelectorDialog
+
+        x: (window.width - width) / 2
+        y: (window.height - height) / 2
+
+        //width: 600
+        //height: 350
+        //width: 400
+
+        modal: Qt.WindowModal
+        closePolicy: Popup.NoAutoClose
+
+        background: Rectangle{
+            color: "black" //"#303030"
+            radius: 10
+        }
+        header: Label{
+            id: title
+            padding: 12
+            color: "white"
+            font.bold: true
+            font.pixelSize: 14
+            text: qsTr("Select a Serial Port:")
+        }
+
+        Column{
+            anchors.centerIn: parent
+            spacing: 15
+            ComboBox{
+                id: comPortComboBox
+                width: 300
+                model: appCore.getSerialPorts()
+            }
+            Row{
+                anchors.right: parent.right
+                spacing: 10
+                Button {
+                    text: qsTr("Refresh")
+                    onClicked: {
+                        comPortComboBox.model = appCore.getSerialPorts()
+                    }
+                }
+                Button {
+                    text: qsTr("Connect")
+                    onClicked: {
+                        appCore.connectToPort(comPortComboBox.currentText)
+                        comPortSelectorDialog.close()
+                    }
+                }
+                Button {
+                    text: qsTr("Cancel")
+                    onClicked:
+                    {
+                        comPortSelectorDialog.close()
+                    }
+                }
+            }
+        }
+    }
 }

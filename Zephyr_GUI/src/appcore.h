@@ -9,6 +9,7 @@
 #include <QTimer>
 #include <QDateTime>
 #include <QThread>
+#include <QSerialPortInfo>
 
 // include library headers
 #include "QQmlObjectListModel.h"
@@ -64,6 +65,7 @@ class AppCore : public QObject {
 
     QML_WRITABLE_AUTO_PROPERTY      (int                , mode)     // Selected mode
 
+    QML_READONLY_AUTO_PROPERTY      (bool            , serialConnected)    // Store serial connection for alarm handling
 
 public:
     explicit AppCore( QObject *parent = 0);
@@ -116,7 +118,6 @@ private:
     qint64 m_xOffset_ = 0;              // Timestamp offset on plot x-axis
     quint16 m_xSpace_ = 100;            // Spacing between line (Separation strip)
 
-    bool m_serialConnected = false;     // Store serial connection for alarm handling
 
 public slots:
     // Initialize plots
@@ -133,6 +134,10 @@ public slots:
 
     // Handle alamrs
     void resetAlarms();
+
+    // Serial connection
+    QStringList getSerialPorts();
+    void connectToPort(QString port);
 
 private slots:
     // Initialize the communication
@@ -154,6 +159,8 @@ private slots:
 signals:
     // Emit to send message (needed for signal slot connection to other thread)
     void _sendSerialMessage_(QByteArray);
+    void _updateSerialConfig_(QString, qint32);
+
 };
 
 #endif // APPCORE_H

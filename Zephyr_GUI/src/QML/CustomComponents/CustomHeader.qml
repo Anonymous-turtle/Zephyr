@@ -46,7 +46,9 @@ Item {
             onActivated: {
                 progress = 0
                 appCore.resetAlarms()
+                if (!appCore.serialConnected || appCore.alarm==="") comPortSelectorDialog.open()
             }
+
             contentItem: Label {
                 anchors.fill: parent
                 verticalAlignment: Text.AlignVCenter
