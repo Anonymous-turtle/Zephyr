@@ -17,7 +17,7 @@ VERSION = 0.0.1
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        AppCore.cpp \
+        appcore.cpp \
         SerialComm.cpp \
         main.cpp
 

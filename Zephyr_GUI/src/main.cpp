@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QApplication>
 
-#include "AppCore.h"
+#include "appcore.h"
 
 int main(int argc, char *argv[])
 {
