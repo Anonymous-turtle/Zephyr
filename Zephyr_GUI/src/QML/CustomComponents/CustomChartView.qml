@@ -1,7 +1,7 @@
 import QtQuick 2.7
 import QtCharts 2.3
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.5
+import QtQuick.Controls 2.4
 
 Item {
     property string plotColor: ""
